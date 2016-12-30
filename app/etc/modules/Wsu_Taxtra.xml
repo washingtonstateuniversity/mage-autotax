@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Wsu_Taxtra>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends></depends>
+        </Wsu_Taxtra>
+    </modules>
+</config>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Wsu_Taxtra>
+            <version>1.0.0</version>
+        </Wsu_Taxtra>
+    </modules>
+    <global>
+        <helpers>
+            <taxtra>
+                <class>Wsu_Taxtra_Helper</class>
+            </taxtra>
+        </helpers>
+
+        <blocks>
+            <adminhtml>
+                <rewrite>
+                    <tax_rate_grid>Wsu_Taxtra_Block_Adminhtml_Tax_Rate_Grid</tax_rate_grid>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+    </global>
+    <admin>
+        <routers>
+            <wsu_taxtra>
+                <use>admin</use>
+                <args>
+                    <module>Wsu_Taxtra</module>
+                    <frontName>taxtra</frontName>
+                </args>
+            </wsu_taxtra>
+        </routers>
+    </admin>
+
+</config>
