@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <taxtrareports_index_index>
+        <reference name="content">
+            <block type="wsu_taxtra/taxtrareports" name="taxtrareports" template="wsu_taxtra/taxtrareports.phtml" />
+        </reference>
+    </taxtrareports_index_index>
+</layout>

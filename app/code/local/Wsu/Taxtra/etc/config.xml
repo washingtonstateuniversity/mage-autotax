@@ -2,23 +2,48 @@
 <config>
     <modules>
         <Wsu_Taxtra>
-            <version>1.0.0</version>
+            <version>0.1.0</version>
         </Wsu_Taxtra>
     </modules>
     <global>
         <helpers>
-            <taxtra>
+            <wsu_taxtra>
                 <class>Wsu_Taxtra_Helper</class>
-            </taxtra>
+            </wsu_taxtra>
         </helpers>
 
         <blocks>
             <adminhtml>
                 <rewrite>
                     <tax_rate_grid>Wsu_Taxtra_Block_Adminhtml_Tax_Rate_Grid</tax_rate_grid>
+                    <report_sales_tax_grid>Wsu_Taxtra_Block_Adminhtml_Report_Sales_Tax_Grid</report_sales_tax_grid>
                 </rewrite>
             </adminhtml>
+            <taxtrareports>
+                <class>Wsu_Taxtra_Block</class>
+            </taxtrareports>
         </blocks>
+        <models>
+            <wsu_taxtra>
+                <class>Wsu_Taxtra_Model</class>
+                <resourceModel>wsu_taxtra_resource</resourceModel>
+            </wsu_taxtra>
+            <wsu_taxtra_resource>
+                <class>Wsu_Taxtra_Model_Resource</class>
+                <entities>
+                    <taxtrareports>
+                        <table>wsu_taxtra_taxtrareports</table>
+                    </taxtrareports>
+                </entities>
+            </wsu_taxtra_resource>
+        </models>
+        <resources>
+            <wsu_taxtra_setup>
+                <setup>
+                    <module>Wsu_Taxtra</module>
+                </setup>
+            </wsu_taxtra_setup>
+        </resources>
     </global>
     <admin>
         <routers>
@@ -29,7 +54,57 @@
                     <frontName>taxtra</frontName>
                 </args>
             </wsu_taxtra>
+            <taxtrareports>
+                <use>admin</use>
+                <args>
+                    <module>Wsu_Taxtra</module>
+                    <frontName>taxtrareports</frontName>
+                </args>
+            </taxtrareports>
         </routers>
     </admin>
-
+    <adminhtml>
+        <menu>
+            <report>
+                <children>
+                    <salesroot>
+                        <children>
+                            <taxtrareports module="wsu_taxtra">
+                                <title>Advanced Tax Report</title>
+                                <sort_order>100</sort_order>
+                                <action>taxtrareports/adminhtml_taxtrareports</action>
+                            </taxtrareports>
+                        </children>
+                    </salesroot>
+                </children>
+            </report>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <Wsu_Taxtra translate="title" module="wsu_taxtra">
+                            <title>Taxtrareports</title>
+                            <sort_order>1000</sort_order>
+                            <children>
+                                <taxtrareports translate="title">
+                                    <title>Advanced Tax Report</title>
+                                </taxtrareports>
+                            </children>
+                        </Wsu_Taxtra>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <taxtrareports>
+                    <file>taxtra.xml</file>
+                </taxtrareports>
+            </updates>
+        </layout>
+    </adminhtml>
 </config>

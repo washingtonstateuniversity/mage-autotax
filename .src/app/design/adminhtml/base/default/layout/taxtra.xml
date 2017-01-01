@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <wsu_taxtra_adminhtml_taxtrareports_index>
+        <reference name="content">
+            <block type="wsu_taxtra/adminhtml_taxtrareports" name="taxtrareports" />
+        </reference>
+    </wsu_taxtra_adminhtml_taxtrareports_index>
+</layout>
