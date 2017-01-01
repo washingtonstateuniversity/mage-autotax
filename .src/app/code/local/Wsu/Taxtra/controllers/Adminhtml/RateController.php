@@ -12,11 +12,10 @@ class Wsu_Taxtra_Adminhtml_RateController extends Mage_Adminhtml_Controller_Acti
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('tax')->__('Please select tax(es).'));
         } else {
             try {
-                $rateModel = Mage::getModel('tax/calculation_rate');
-                foreach ($taxIds as $taxId) {
-                    // @codingStandardsIgnoreLine
-                    $rateModel->load($taxId)->delete();
-                }
+                $tax_collection = Mage::getModel('tax/calculation_rate')->getCollection()
+                    ->addFieldToFilter('tax_calculation_rate_id', array("in" => array($taxIds)))
+                    ->walk('delete');
+
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('tax')->__(
                         'Total of %d record(s) were deleted.',
