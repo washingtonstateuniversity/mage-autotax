@@ -9,6 +9,10 @@ class Wsu_Taxtra_Block_Adminhtml_Tax_Rate_Grid extends Mage_Adminhtml_Block_Tax_
             'label'=> Mage::helper('tax')->__('Delete'),
             'url'  => $this->getUrl('taxtra/adminhtml_rate/massDelete', array('' => '')),
             ));
+        $this->getMassactionBlock()->addItem('update', array(
+            'label'=> Mage::helper('tax')->__('Update'),
+            'url'  => $this->getUrl('taxtra/adminhtml_rate/massUpdate', array('' => '')),
+            ));
         return $this;
     }
 }

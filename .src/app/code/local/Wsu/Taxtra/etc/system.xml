@@ -1,24 +1,16 @@
 <?xml version="1.0"?>
 <config>
-    <tabs>
-        <customreport translate="label" module="wsu_taxtra">
-            <label>Wsu</label>
-            <sort_order>300</sort_order>
-        </customreport>
-    </tabs>
     <sections>
-        <taxtrareports  translate="label" module="wsu_taxtra">
-            <label>Advanced Tax Report</label>
-            <tab>customreport</tab>
-            <frontend_type>text</frontend_type>
-            <sort_order>0</sort_order>
+        <wsu_taxtra  translate="label" module="wsu_taxtra">
+            <label>Taxtra Settings</label>
+            <tab>utilitiestab</tab>
+            <sort_order>10000</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>0</show_in_website>
             <show_in_store>0</show_in_store>
             <groups>
                 <general translate="label">
                     <label>General</label>
-                    <frontend_type>text</frontend_type>
                     <sort_order>0</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>0</show_in_website>
@@ -35,9 +27,83 @@
                         </enable>
                     </fields>
                 </general>
+                <updater translate="label">
+                    <label>Updater settings</label>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <updater_enable translate="label">
+                            <label>Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </updater_enable>
+                        <update_url translate="label comment">
+                            <label>Update Url</label>
+                            <comment>
+                                <![CDATA[ Usable Placeholders for fields are:
+                                <ul>
+                                    <li>{{tax_calculation_rate_id}}</li>
+                                    <li>{{tax_country_id}}</li>
+                                    <li>{{tax_region_id}}</li>
+                                    <li>{{tax_postcode}}</li>
+                                    <li>{{code}}</li>
+                                </ul>
+                                ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <!--<validate>validate-number validate-number-range number-range-960-3000</validate>-->
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <updater_enable>1</updater_enable>
+                            </depends>
+                        </update_url>
+                        <update_response_pattern translate="label comment">
+                            <label>Update Response Pattern</label>
+                            <comment>
+                                <![CDATA[ Usable Placeholders for fields are:
+                                <ul>
+                                    <li>&lt;rate&gt;</li>
+                                    <li>&lt;zip_is_range&gt;</li>
+                                    <li>&lt;zip_from&gt;</li>
+                                    <li>&lt;zip_to&gt;</li>
+                                </ul>
+                                This will be run through <code>preg_match_all($pattern,$response,$matches,PREG_PATTERN_ORDER);</code> where $pattern would be equal to something like <br/>
+                                <code>/LocationCode=\d+?\sRate=(?&lt;rate&gt;.*?)\sResultCode=\d+?/</code> which would produce <code>$matches = [ 'rate'=>'value found' ]</code> but would include any of the other options.
+                                ]]>
+                            </comment>
+                            <frontend_type>textarea</frontend_type>
+                            <!--<validate>validate-number validate-number-range number-range-960-3000</validate>-->
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <updater_enable>1</updater_enable>
+                            </depends>
+                        </update_response_pattern>
+                        <feed_rate_type>
+                            <label>Is the rate in the feed a percent format?</label>
+                            <comment>If set to no, it would be expected that the value would be 0.08 for 8% and in order to be used in Magento, would need to the value multiplied by 100 to take .08 to 8.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </feed_rate_type>
+                    </fields>
+                </updater>
                 <reportsettings translate="label">
                     <label>Report Settings</label>
-                    <frontend_type>text</frontend_type>
                     <sort_order>10</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>0</show_in_website>
@@ -84,6 +150,6 @@
                     </fields>
                 </reportsettings>
             </groups>
-        </taxtrareports>
+        </wsu_taxtra>
     </sections>
 </config>

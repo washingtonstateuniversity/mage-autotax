@@ -36,6 +36,11 @@
                     </taxtrareports>
                 </entities>
             </wsu_taxtra_resource>
+            <tax>
+                <rewrite>
+                    <calculation_rate>Wsu_Taxtra_Model_Calculation_Rate</calculation_rate>
+                </rewrite>
+            </tax>
         </models>
         <resources>
             <wsu_taxtra_setup>
@@ -44,6 +49,17 @@
                 </setup>
             </wsu_taxtra_setup>
         </resources>
+        <events>
+            <adminhtml_block_html_before>
+                <observers>
+                    <wsu_tax_rate_edit>
+                        <type>model</type>
+                        <class>Wsu_Taxtra_Model_Observer</class>
+                        <method>taxrateField</method>
+                    </wsu_tax_rate_edit>
+                </observers>
+            </adminhtml_block_html_before>
+        </events>
     </global>
     <admin>
         <routers>

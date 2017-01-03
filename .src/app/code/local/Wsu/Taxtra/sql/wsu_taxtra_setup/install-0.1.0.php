@@ -4,6 +4,17 @@ $installer = $this;
 
 $installer->startSetup();
 
+/*$installer->run("
+ALTER TABLE  {$this->getTable('tax_calculation_rate')}
+    DROP COLUMN `update_history`,
+    DROP COLUMN `update_type`,
+    DROP COLUMN `update_history`;
+");*/
+
+$installer->run("ALTER TABLE {$this->getTable('tax_calculation_rate')} ADD `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;");
+$installer->run("ALTER TABLE {$this->getTable('tax_calculation_rate')} ADD `update_type` VARCHAR(255) NOT NULL;");
+$installer->run("ALTER TABLE {$this->getTable('tax_calculation_rate')} ADD `update_history` TEXT NOT NULL;");
+
 $taxtrareports_table = $installer->getTable('wsu_taxtra/taxtrareports');
 $installer->getConnection()->dropTable($taxtrareports_table);
 $installer->run("
