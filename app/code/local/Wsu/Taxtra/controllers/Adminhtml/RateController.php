@@ -83,36 +83,8 @@ class Wsu_Taxtra_Adminhtml_RateController extends Mage_Adminhtml_Controller_Acti
                 $url = $this->buildUpdateUrl($model, $update_url);
 
                 $response = $this->getUrlUpdate($url);
+                $changed = $this->checkForChange($model, $response);
 
-                $is_percent = Mage::getStoreConfig('wsu_taxtra/updater/feed_rate_type');
-
-                $update_response_pattern = Mage::getStoreConfig('wsu_taxtra/updater/update_response_pattern');
-
-                preg_match_all($update_response_pattern, $response, $matches, PREG_PATTERN_ORDER);
-
-                $changed = [];
-                foreach ($matches as $key => $value) {
-                    if ('zip_is_range' === $key && !empty($value)) {
-                        $changed['zip_is_range'] = $matches['zip_is_range'][0];
-                        $model->setZipIsRange($matches['zip_is_range'][0]);
-                        break;
-                    } elseif ('zip_from' === $key && !empty($value)) {
-                        $changed['zip_from'] = $matches['zip_from'][0];
-                        $model->setZipFrom($matches['zip_from'][0]);
-                        break;
-                    } elseif ('zip_to' === $key && !empty($value)) {
-                        $changed['zip_to'] = $matches['zip_to'][0];
-                        $model->setZipTo($matches['zip_to'][0]);
-                        break;
-                    } elseif ('rate' === $key && !empty($value)) {
-                        $rate = (float)$matches['rate'][0];
-                        if ("0" === $is_percent) {
-                            $rate = $rate * 100;
-                        }
-                        $changed['rate'] = $rate;
-                        $model->setRate($rate);
-                    }
-                }
                 if (!empty($changed)) {
                     $model->setUpdateType("feed");
                     $model->setLastUpdate(date('Y-m-d H:i:s'));
@@ -225,37 +197,7 @@ class Wsu_Taxtra_Adminhtml_RateController extends Mage_Adminhtml_Controller_Acti
         }
 
         if (false === $responseData['error']) {
-            $is_percent = Mage::getStoreConfig('wsu_taxtra/updater/feed_rate_type');
-            $responseData['info'] = $responseData['info'] . ' | feed_rate_type as is_percent: '.$is_percent;
-            $update_response_pattern = Mage::getStoreConfig('wsu_taxtra/updater/update_response_pattern');
-            $responseData['info'] = $responseData['info'] . ' | update_response_pattern: '.$update_response_pattern;
-            preg_match_all($update_response_pattern, $response, $matches, PREG_PATTERN_ORDER);
-
-            $changed = [];
-            foreach ($matches as $key => $value) {
-                if ('zip_is_range' === $key && !empty($value)) {
-                    $changed['zip_is_range'] = $matches['zip_is_range'][0];
-                    $model->setZipIsRange($matches['zip_is_range'][0]);
-                    break;
-                } elseif ('zip_from' === $key && !empty($value)) {
-                    $changed['zip_from'] = $matches['zip_from'][0];
-                    $model->setZipFrom($matches['zip_from'][0]);
-                    break;
-                } elseif ('zip_to' === $key && !empty($value)) {
-                    $changed['zip_to'] = $matches['zip_to'][0];
-                    $model->setZipTo($matches['zip_to'][0]);
-                    break;
-                } elseif ('rate' === $key && !empty($value)) {
-                    $rate = (float)$matches['rate'][0];
-                    $responseData['info'] = $responseData['info'] . ' | match rate as float: '.number_format($rate, 4);
-                    if ("0" === $is_percent) {
-                        $rate = $rate * 100;
-                    }
-                    $responseData['info'] = $responseData['info'] . ' | changed rate: '.number_format($rate, 4);
-                    $changed['rate'] = $rate;
-                    $model->setRate($rate);
-                }
-            }
+            $changed = $this->checkForChange($model, $response);
             if (!empty($changed)) {
                 $model->setUpdateType("feed");
                 $model->setLastUpdate(date('Y-m-d H:i:s'));
@@ -269,5 +211,43 @@ class Wsu_Taxtra_Adminhtml_RateController extends Mage_Adminhtml_Controller_Acti
         }
 
         $this->_sendJsonResponse($responseData);
+    }
+
+    /*
+    * return array
+    */
+    protected function checkForChange($model, $response)
+    {
+        $is_percent = Mage::getStoreConfig('wsu_taxtra/updater/feed_rate_type');
+        $update_response_pattern = Mage::getStoreConfig('wsu_taxtra/updater/update_response_pattern');
+        preg_match_all($update_response_pattern, $response, $matches, PREG_PATTERN_ORDER);
+        $changed = [];
+        foreach ($matches as $key => $value) {//
+            if ('remittee_id' === $key && !empty($value)) {
+                $changed['remittee_id'] = $matches['remittee_id'][0];
+                $model->setRemitteeId($matches['remittee_id'][0]);
+                break;
+            } elseif ('zip_is_range' === $key && !empty($value)) {
+                $changed['zip_is_range'] = $matches['zip_is_range'][0];
+                $model->setZipIsRange($matches['zip_is_range'][0]);
+                break;
+            } elseif ('zip_from' === $key && !empty($value)) {
+                $changed['zip_from'] = $matches['zip_from'][0];
+                $model->setZipFrom($matches['zip_from'][0]);
+                break;
+            } elseif ('zip_to' === $key && !empty($value)) {
+                $changed['zip_to'] = $matches['zip_to'][0];
+                $model->setZipTo($matches['zip_to'][0]);
+                break;
+            } elseif ('rate' === $key && !empty($value)) {
+                $rate = (float)$matches['rate'][0];
+                if ("0" === $is_percent) {
+                    $rate = $rate * 100;
+                }
+                $changed['rate'] = $rate;
+                $model->setRate($rate);
+            }
+        }
+        return $changed;
     }
 }

@@ -28,9 +28,12 @@ class Wsu_Taxtra_Model_Calculation_Rate extends Mage_Tax_Model_Calculation_Rate
                 'who'=>$admin->getId()
             ];
             $this->setUpdateHistory(json_encode($history));
+            $remittee_id = Mage::app()->getRequest()->getParam('remittee_id');
+            $this->setRemitteeId($remittee_id);
         } else {
             Mage::unregister('feed_save');
         }
+
         //var_dump($this);// @codingStandardsIgnoreLine
         //die();// @codingStandardsIgnoreLine
         parent::_beforeSave();

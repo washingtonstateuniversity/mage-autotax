@@ -75,6 +75,7 @@
                                     <li>&lt;zip_is_range&gt;</li>
                                     <li>&lt;zip_from&gt;</li>
                                     <li>&lt;zip_to&gt;</li>
+                                    <li>&lt;remittee_id&gt;</li>
                                 </ul>
                                 This will be run through <code>preg_match_all($pattern,$response,$matches,PREG_PATTERN_ORDER);</code> where $pattern would be equal to something like <br/>
                                 <code>/LocationCode=\d+?\sRate=(?&lt;rate&gt;.*?)\sResultCode=\d+?/</code> which would produce <code>$matches = [ 'rate'=>'value found' ]</code> but would include any of the other options.
@@ -100,6 +101,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </feed_rate_type>
+                        <account_id translate="label">
+                            <label>Remitter account number</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>If you have a remitter account number please place it here. (This will only hold one number)</comment>
+                        </account_id>
                     </fields>
                 </updater>
                 <reportsettings translate="label">
